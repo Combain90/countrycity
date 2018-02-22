@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>CountryCity</display-name>
+   
+   <servlet>
+        <servlet-name>FirstServlet</servlet-name>
+        <servlet-class>it.objectmethod.countrycity.principale.servlet.IndexServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+        <servlet-name>FirstServlet</servlet-name>
+        <url-pattern>/ServletIniziale</url-pattern>
+   </servlet-mapping>
+   
+    <servlet>
+        <servlet-name>Servlet2</servlet-name>
+        <servlet-class>it.objectmethod.countrycity.principale.servlet.CountryServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+        <servlet-name>Servlet2</servlet-name>
+        <url-pattern>/ServletContinenti</url-pattern>
+   </servlet-mapping>
+   
+     <servlet>
+        <servlet-name>Servlet3</servlet-name>
+        <servlet-class>it.objectmethod.countrycity.principale.servlet.CityServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+        <servlet-name>Servlet3</servlet-name>
+        <url-pattern>/ServletCity</url-pattern>
+   </servlet-mapping>
+</web-app>
