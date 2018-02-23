@@ -21,17 +21,19 @@ public class DaoCountryConcreta implements DaoCountry {
 	}
 	
 	@Override
-	public List<CountryBean> getContinents() {
+	public List<String> getContinents() {
 		
 		Statement stm=null;
 		ResultSet rs=null;
-		List<CountryBean> list=null;
+		List<String> list= new ArrayList<String>();
 		try {
 			stm=conn.createStatement();
-			String query="SELECT * FROM country GROUP BY country.Continent";
+			String query="SELECT distinct Continent FROM country";
 			rs = stm.executeQuery(query);
 			
-			list=riempiLista(rs);
+			while(rs.next()) {
+				list.add(rs.getString("Continent"));
+			}
 			
 			// CHIUDO LE RISORSE  E LA CONNESSIONE AL DB
 			

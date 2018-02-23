@@ -20,8 +20,8 @@ body {
     <div align="center" style="margin-top: 50px;">
     
  		<%-- FOR EACH IN JSTL --%>
-		<c:forEach items="${lista}" var="x">
-	   	 <p> <h3><font color=blue> <a href=/CountryCity/ServletContinenti?continente=${x.continente}> ${x.continente } </a> </font></h3></p><br>
+		<c:forEach items="${lista}" var="cont">
+	   	 <p> <h3><font color=blue> <a href=/CountryCity/ServletContinenti?continente=${cont}> ${cont} </a> </font></h3></p><br>
 		</c:forEach>
     </div>
  
