@@ -6,7 +6,7 @@ import it.objectmethod.countrycity.principale.pojo.CityBean;
 
 
 public interface DaoCity {
-	public List<CityBean> queryCityPopolation(String stato);
+	public List<CityBean> getCitiesByStato(String stato);
 	public int deleteRecord(String id);
 	public CityBean infoCity(String id);
 	public int AddRecordCity(String nome,String codiceStato,String popolazione,String distretto);

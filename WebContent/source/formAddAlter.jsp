@@ -29,12 +29,13 @@ body {
     		INSERISCI IL CODICE DELLO STATO: 
     		<select name="codiceStato">
     			
-    			<c:if test="${not empty codiceStato}">
-    				<option value=${codiceStato}> ${codiceStato} </option>
-				</c:if>
+    			
     			
 				<c:forEach items="${allCountryCode}" var="x">
  	   				<option value=${x}> ${x} </option>
+ 	   				<c:if test="${codiceStato == x}">
+    					<option value=${x} selected> ${x} </option>
+					</c:if>
 		    	</c:forEach>
 		    </select>
     		<br>

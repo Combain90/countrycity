@@ -21,7 +21,7 @@ public class CityServlet extends HttpServlet{
 		String continente=request.getParameter("continente");
 		
 		DaoCity dc=new DaoCityConcreta();
-		List<CityBean> lista=dc.queryCityPopolation(codiceStato);
+		List<CityBean> lista=dc.getCitiesByStato(codiceStato);
 		request.setAttribute("lista", lista); // passo la lista
 		request.setAttribute("codiceStato", codiceStato);
 		request.setAttribute("continente", continente);

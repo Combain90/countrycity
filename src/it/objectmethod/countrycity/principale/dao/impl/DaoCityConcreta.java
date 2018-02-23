@@ -21,11 +21,13 @@ public class DaoCityConcreta implements DaoCity {
 	}
 	
 	@Override
-	public List<CityBean> queryCityPopolation(String stato) {
+	public List<CityBean> getCitiesByStato(String stato) {
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
 		List<CityBean> list=null;
-		String query="SELECT city.Name, city.Population , city.ID FROM country,city WHERE country.Code=city.CountryCode AND city.CountryCode=?";
+		String query="SELECT * " + 
+				" FROM city " + 
+				" WHERE city.CountryCode = ?";
 		
 		try {
 			pstm=conn.prepareStatement(query);
@@ -64,6 +66,8 @@ public class DaoCityConcreta implements DaoCity {
 		List<CityBean> lista=new ArrayList<CityBean>();
 		while(rs.next()) {
 			CityBean cb=new CityBean();
+			cb.setCountryCode(rs.getString("CountryCode"));
+			cb.setDistretto(rs.getString("District"));
 			cb.setId(rs.getString("ID"));
 			cb.setNome(rs.getString("Name"));
 			cb.setPopolazione(rs.getString("Population"));
