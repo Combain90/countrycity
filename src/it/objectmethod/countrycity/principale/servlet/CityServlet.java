@@ -17,14 +17,14 @@ public class CityServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String stato=request.getParameter("stato");
-		String continenteIndietro=request.getParameter("continente");
+		String codiceStato=request.getParameter("codice");
+		String continente=request.getParameter("continente");
 		
 		DaoCity dc=new DaoCityConcreta();
-		List<CityBean> lista=dc.queryCityPopolation(stato);
+		List<CityBean> lista=dc.queryCityPopolation(codiceStato);
 		request.setAttribute("lista", lista); // passo la lista
-		request.setAttribute("stato", stato);
-		request.setAttribute("continente", continenteIndietro);
+		request.setAttribute("codiceStato", codiceStato);
+		request.setAttribute("continente", continente);
 		request.getRequestDispatcher("source/City.jsp").forward(request, response); // mando alla pagina dei risultati
 	}
 

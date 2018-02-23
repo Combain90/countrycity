@@ -120,4 +120,50 @@ public class DaoCountryConcreta implements DaoCountry {
 		}
 		return lista;
 	}
+
+	@Override
+	public List<String> allCountryCode() {
+		Statement stm=null;
+		ResultSet rs=null;
+		List<String> list=null;
+		try {
+			stm=conn.createStatement();
+			String query="SELECT country.Code FROM country";
+			rs = stm.executeQuery(query);
+			list=riempiListaCountryCode(rs);
+			
+			// CHIUDO LE RISORSE  E LA CONNESSIONE AL DB
+			
+			stm.close();
+			conn.close();
+			rs.close();
+			
+		} catch (SQLException e) {
+			System.out.println("ERRORE NELLA QUERY1 DEL DAO COUNTRY");
+			e.printStackTrace();
+		} finally {
+		// FORZO LA CHISURA DEL DB E DELLE RISORSE
+			try{
+			  if(stm!=null)
+			    stm.close();
+			}catch(SQLException se2){
+			}// nothing we can do
+			
+			try{
+			  if(conn!=null)
+			     conn.close();
+			}catch(SQLException se){
+			  se.printStackTrace();
+			 }
+		  } // END FINALLY
+		return list;
+	}
+	
+	private List<String> riempiListaCountryCode(ResultSet rs) throws SQLException{
+		List<String> lista=new ArrayList<String>();
+		while(rs.next()) {
+			lista.add(rs.getString("Code"));
+		}
+		return lista;
+	}
 }

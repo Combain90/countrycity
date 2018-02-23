@@ -1,7 +1,7 @@
 package it.objectmethod.countrycity.principale.pojo;
 
 public class CityBean {
-	private String id,nome,countryCode,popolazione;
+	private String id,nome,countryCode,popolazione,distretto;
 
 	public String getId() {
 		return id;
@@ -33,5 +33,13 @@ public class CityBean {
 
 	public void setPopolazione(String popolazione) {
 		this.popolazione = popolazione;
+	}
+
+	public String getDistretto() {
+		return distretto;
+	}
+
+	public void setDistretto(String distretto) {
+		this.distretto = distretto;
 	}
 }

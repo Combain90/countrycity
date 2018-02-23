@@ -7,4 +7,5 @@ import it.objectmethod.countrycity.principale.pojo.CountryBean;
 public interface DaoCountry {
 	public List<CountryBean> queryContinent();
 	public List<CountryBean> queryCountry(String continent);
+	public List<String> allCountryCode();
 }
