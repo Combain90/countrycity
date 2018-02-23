@@ -23,9 +23,9 @@ public class AddAlterCityServlet extends HttpServlet {
 		DaoCity dc=new DaoCityConcreta();
 		int ris=0;
 		if(Integer.parseInt(id)>0) { // HO UNA CITTA' ESISTENTE
-			ris=dc.UpdateRecordCity(id, nome, codiceStato, popolazione, distretto);
+			ris=dc.updateCity(id, nome, codiceStato, popolazione, distretto);
 		}else { // HO UNA NUOVA CITTA'
-			ris=dc.AddRecordCity(nome, codiceStato, popolazione, distretto);	
+			ris=dc.addCity(nome, codiceStato, popolazione, distretto);	
 		}
 		
 		String risultato="TUPLA MODIFICATA/INSERITA CORRETTAMENTE";
@@ -34,6 +34,6 @@ public class AddAlterCityServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("risultato", risultato);
-		request.getRequestDispatcher("source/RisDel.jsp").forward(request, response); // mando alla pagina dei risultati
+		request.getRequestDispatcher("source/Risposta.jsp").forward(request, response); // mando alla pagina dei risultati
 	}
 }

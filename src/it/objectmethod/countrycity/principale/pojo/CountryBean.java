@@ -1,7 +1,7 @@
 package it.objectmethod.countrycity.principale.pojo;
 
 public class CountryBean {
-	private String codice,stato,regione,popolazione,continente;
+	private String codice,nome,regione,popolazione,continente;
 
 	public String getCodice() {
 		return codice;
@@ -11,12 +11,12 @@ public class CountryBean {
 		this.codice = codice;
 	}
 
-	public String getStato() {
-		return stato;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setStato(String stato) {
-		this.stato = stato;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getRegione() {

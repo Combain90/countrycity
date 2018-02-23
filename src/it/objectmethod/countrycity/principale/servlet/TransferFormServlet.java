@@ -12,19 +12,20 @@ import it.objectmethod.countrycity.principale.dao.DaoCountry;
 import it.objectmethod.countrycity.principale.dao.impl.DaoCityConcreta;
 import it.objectmethod.countrycity.principale.dao.impl.DaoCountryConcreta;
 import it.objectmethod.countrycity.principale.pojo.CityBean;
+import it.objectmethod.countrycity.principale.pojo.CountryBean;
 
 public class TransferFormServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		DaoCountry dcountry=new DaoCountryConcreta();
-		List<String> allCountryCode=dcountry.allCountryCode(); // devo passarla per settare il campo countryCode
+		List<CountryBean> allCountryCode=dcountry.getAllCountries(); // devo passarla per settare il campo countryCode
 		request.setAttribute("allCountryCode", allCountryCode); // passo la lista alla form di add/Update delle city
 		
 		String id=request.getParameter("id");
 		if(Integer.parseInt(id)>0) { // HO UNA CITTA' ESISTENTE
 			DaoCity dc=new DaoCityConcreta();
-			CityBean cb=dc.infoCity(id);
+			CityBean cb=dc.getCity(id);
 			request.setAttribute("nome", cb.getNome()); 
 			request.setAttribute("codiceStato", cb.getCountryCode()); 
 			request.setAttribute("distretto", cb.getDistretto()); 

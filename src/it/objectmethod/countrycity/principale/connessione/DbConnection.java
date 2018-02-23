@@ -26,7 +26,6 @@ public class DbConnection {
 		 }catch(IOException e) {
 			 e.printStackTrace();
 			 System.out.println("file DB non trovato o errore durante la chiusura del file");
-			 System.exit(0);
 		 }
 		
 		 String drivers = props.getProperty("jdbc.drivers");

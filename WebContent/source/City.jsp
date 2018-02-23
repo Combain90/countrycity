@@ -31,7 +31,7 @@ body {
 		<c:forEach items="${lista}" var="x">
 	   	 	
 	   	 		<h3>
-	   	 			<font color=blue> ${x.nome } - POP. : ${x.popolazione } - ID: ${x.id} </font>
+	   	 			<font color=blue> ${x.nome } - POP. : ${x.popolazione} - ID: ${x.id} </font>
 	   	 			<FORM ACTION="/CountryCity/ServletDelCity">
 	   	 				<input type="hidden" name="id" value=${x.id}>
 	   	 				<input type="submit" value="CANCELLA">

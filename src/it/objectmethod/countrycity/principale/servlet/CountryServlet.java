@@ -24,7 +24,7 @@ public class CountryServlet extends HttpServlet {
 			}
 			
 			DaoCountry dc=new DaoCountryConcreta();
-			List<CountryBean> lista=dc.queryCountry(continente);
+			List<CountryBean> lista=dc.getCountriesByContinent(continente);
 			request.setAttribute("lista", lista); // passo la lista
 			request.setAttribute("continente", continente);
 			request.getRequestDispatcher("source/Country.jsp").forward(request, response); // mando alla pagina dei risultati

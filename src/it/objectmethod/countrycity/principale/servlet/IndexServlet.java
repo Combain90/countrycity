@@ -18,7 +18,7 @@ public class IndexServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		DaoCountry dc=new DaoCountryConcreta();
-		List<CountryBean> lista=dc.queryContinent();
+		List<CountryBean> lista=dc.getContinents();
 		request.setAttribute("lista", lista); // passo la lista
 		request.getRequestDispatcher("source/Index.jsp").forward(request, response); // mando alla pagina dei risultati
 	}

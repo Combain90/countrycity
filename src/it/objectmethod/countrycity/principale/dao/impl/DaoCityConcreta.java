@@ -21,7 +21,7 @@ public class DaoCityConcreta implements DaoCity {
 	}
 	
 	@Override
-	public List<CityBean> getCitiesByStato(String stato) {
+	public List<CityBean> getCitiesByCode(String code) {
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
 		List<CityBean> list=null;
@@ -31,7 +31,7 @@ public class DaoCityConcreta implements DaoCity {
 		
 		try {
 			pstm=conn.prepareStatement(query);
-			pstm.setString(1, stato);
+			pstm.setString(1, code);
 			rs = pstm.executeQuery();
 			list=riempiLista(rs);
 			
@@ -61,24 +61,9 @@ public class DaoCityConcreta implements DaoCity {
 		  } // END FINALLY
 		return list;
 	}
-	
-	private List<CityBean> riempiLista(ResultSet rs) throws SQLException{
-		List<CityBean> lista=new ArrayList<CityBean>();
-		while(rs.next()) {
-			CityBean cb=new CityBean();
-			cb.setCountryCode(rs.getString("CountryCode"));
-			cb.setDistretto(rs.getString("District"));
-			cb.setId(rs.getString("ID"));
-			cb.setNome(rs.getString("Name"));
-			cb.setPopolazione(rs.getString("Population"));
-			
-			lista.add(cb);
-		}
-		return lista;
-	}
 
 	@Override
-	public int deleteRecord(String id) {
+	public int deleteCityById(String id) {
 		PreparedStatement pstm=null;
 
 		String query="DELETE FROM city WHERE city.ID=?";
@@ -116,7 +101,7 @@ public class DaoCityConcreta implements DaoCity {
 	// 1 se l'eliminazione ha successo, 0 altrimenti
 
 	@Override
-	public CityBean infoCity(String id) {
+	public CityBean getCity(String id) {
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
 		CityBean cb=new CityBean();
@@ -162,7 +147,7 @@ public class DaoCityConcreta implements DaoCity {
 	}
 	
 	@Override
-	public int AddRecordCity(String nome,String codiceStato,String popolazione,String distretto) {
+	public int addCity(String nome,String codiceStato,String popolazione,String distretto) {
 		PreparedStatement pstm=null;
 
 		String query="INSERT INTO city (Name,CountryCode,District,Population) VALUES (?,?,?,?)";
@@ -202,7 +187,7 @@ public class DaoCityConcreta implements DaoCity {
 	// 1 se l'eliminazione ha successo, 0 altrimenti
 	
 	@Override
-	public int UpdateRecordCity(String id,String nome,String codiceStato,String popolazione,String distretto) {
+	public int updateCity(String id,String nome,String codiceStato,String popolazione,String distretto) {
 		PreparedStatement pstm=null;
 		
 		String query="UPDATE city SET Name=?,CountryCode=?,District=?,Population=? WHERE city.ID=?";
@@ -241,5 +226,20 @@ public class DaoCityConcreta implements DaoCity {
 		return successo;
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
+	
+	private List<CityBean> riempiLista(ResultSet rs) throws SQLException{
+		List<CityBean> lista=new ArrayList<CityBean>();
+		while(rs.next()) {
+			CityBean cb=new CityBean();
+			cb.setCountryCode(rs.getString("CountryCode"));
+			cb.setDistretto(rs.getString("District"));
+			cb.setId(rs.getString("ID"));
+			cb.setNome(rs.getString("Name"));
+			cb.setPopolazione(rs.getString("Population"));
+			
+			lista.add(cb);
+		}
+		return lista;
+	}
 	
 }

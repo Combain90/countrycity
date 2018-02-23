@@ -21,16 +21,17 @@ public class DaoCountryConcreta implements DaoCountry {
 	}
 	
 	@Override
-	public List<CountryBean> queryContinent() {
+	public List<CountryBean> getContinents() {
 		
 		Statement stm=null;
 		ResultSet rs=null;
 		List<CountryBean> list=null;
 		try {
 			stm=conn.createStatement();
-			String query="SELECT DISTINCT country.Continent FROM country";
+			String query="SELECT * FROM country GROUP BY country.Continent";
 			rs = stm.executeQuery(query);
-			list=riempiListaContinent(rs);
+			
+			list=riempiLista(rs);
 			
 			// CHIUDO LE RISORSE  E LA CONNESSIONE AL DB
 			
@@ -60,17 +61,17 @@ public class DaoCountryConcreta implements DaoCountry {
 	}
 	
 	@Override
-	public List<CountryBean> queryCountry(String continent) {
+	public List<CountryBean> getCountriesByContinent(String continent) {
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
 		List<CountryBean> list=null;
-		String query="SELECT country.Name, country.Code FROM country WHERE country.Continent= ? ";
+		String query="SELECT * FROM country WHERE country.Continent= ? ";
 		
 		try {
 			pstm=conn.prepareStatement(query);
 			pstm.setString(1, continent);
 			rs=pstm.executeQuery();
-			list=riempiListaCountry(rs);
+			list=riempiLista(rs);
 			
 			// CHIUDO LE RISORSE  E LA CONNESSIONE AL DB
 			pstm.close();
@@ -100,37 +101,16 @@ public class DaoCountryConcreta implements DaoCountry {
 		return list;
 	}
 
-	private List<CountryBean> riempiListaCountry(ResultSet rs) throws SQLException{
-		List<CountryBean> lista=new ArrayList<CountryBean>();
-		while(rs.next()) {
-			CountryBean cb=new CountryBean();
-			cb.setStato(rs.getString("Name"));
-			cb.setCodice(rs.getString("Code"));
-			lista.add(cb);
-		}
-		return lista;
-	}
-	
-	private List<CountryBean> riempiListaContinent(ResultSet rs) throws SQLException{
-		List<CountryBean> lista=new ArrayList<CountryBean>();
-		while(rs.next()) {
-			CountryBean cb=new CountryBean();
-			cb.setContinente(rs.getString("Continent"));
-			lista.add(cb);
-		}
-		return lista;
-	}
-
 	@Override
-	public List<String> allCountryCode() {
+	public List<CountryBean> getAllCountries() {
 		Statement stm=null;
 		ResultSet rs=null;
-		List<String> list=null;
+		List<CountryBean> list=null;
 		try {
 			stm=conn.createStatement();
-			String query="SELECT country.Code FROM country";
+			String query="SELECT * FROM country";
 			rs = stm.executeQuery(query);
-			list=riempiListaCountryCode(rs);
+			list=riempiLista(rs);
 			
 			// CHIUDO LE RISORSE  E LA CONNESSIONE AL DB
 			
@@ -159,10 +139,17 @@ public class DaoCountryConcreta implements DaoCountry {
 		return list;
 	}
 	
-	private List<String> riempiListaCountryCode(ResultSet rs) throws SQLException{
-		List<String> lista=new ArrayList<String>();
+	
+	private List<CountryBean> riempiLista(ResultSet rs) throws SQLException{
+		List<CountryBean> lista=new ArrayList<CountryBean>();
 		while(rs.next()) {
-			lista.add(rs.getString("Code"));
+			CountryBean cb=new CountryBean();
+			cb.setNome(rs.getString("Name"));
+			cb.setCodice(rs.getString("Code"));
+			cb.setContinente(rs.getString("Continent"));
+			cb.setPopolazione(rs.getString("Population"));
+			cb.setRegione(rs.getString("Region"));
+			lista.add(cb);
 		}
 		return lista;
 	}

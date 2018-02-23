@@ -16,7 +16,7 @@ public class DelCityServlet extends HttpServlet{
 		
 		String id=request.getParameter("id");
 		DaoCity dc=new DaoCityConcreta();
-		int ris=dc.deleteRecord(id);
+		int ris=dc.deleteCityById(id);
 		
 		String risultato="TUPLA ELIMINATA CORRETTAMENTE";
 		if(ris==0) {
@@ -24,6 +24,6 @@ public class DelCityServlet extends HttpServlet{
 		}
 		
 		request.setAttribute("risultato", risultato);
-		request.getRequestDispatcher("source/RisDel.jsp").forward(request, response); // mando alla pagina dei risultati
+		request.getRequestDispatcher("source/Risposta.jsp").forward(request, response); // mando alla pagina dei risultati
 	}
 }

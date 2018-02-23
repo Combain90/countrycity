@@ -23,7 +23,7 @@ body {
     	
  		<%-- FOR EACH IN JSTL --%>
 		<c:forEach items="${lista}" var="x">
-	   	 <p> <h3><font color=blue> <a href=/CountryCity/ServletCity?codice=${x.codice}&continente=${continente}> ${x.stato } </a> </font></h3> </p>
+	   	 <p> <h3><font color=blue> <a href=/CountryCity/ServletCity?codice=${x.codice}&continente=${continente}> ${x.nome} </a> </font></h3> </p>
 		</c:forEach>
     </div>
  

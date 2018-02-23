@@ -26,15 +26,15 @@ body {
     	<FORM ACTION="/CountryCity/ServletAddAlterCity">
     		<input type="hidden" name="id" value=${id}>
     		INSERISCI NOME: <input type="text" name="nome" value=${nome}> <br>
-    		INSERISCI IL CODICE DELLO STATO: 
+    		INSERISCI LO STATO: 
     		<select name="codiceStato">
     			
     			
     			
 				<c:forEach items="${allCountryCode}" var="x">
- 	   				<option value=${x}> ${x} </option>
- 	   				<c:if test="${codiceStato == x}">
-    					<option value=${x} selected> ${x} </option>
+ 	   				<option value=${x.codice}> ${x.nome} </option>
+ 	   				<c:if test="${codiceStato == x.codice}">
+    					<option value=${x.codice} selected> ${x.nome} </option>
 					</c:if>
 		    	</c:forEach>
 		    </select>
