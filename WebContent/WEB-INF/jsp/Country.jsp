@@ -13,15 +13,17 @@ body {
  
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>INDEX - CONTINENT</title>
+<title>STATI DI ${continente} </title>
 </head>
 <body>
  
     <div align="center" style="margin-top: 50px;">
-    
+    	<h6><a href=home> INDIETRO</a><br></h6>
+    	<h2><font color=green> STATI DI ${continente} </font> </h2>
+    	
  		<%-- FOR EACH IN JSTL --%>
-		<c:forEach items="${lista}" var="cont">
-	   	 <p> <h3><font color=blue> <a href=/CountryCity/ServletContinenti?continente=${cont}> ${cont} </a> </font></h3></p><br>
+		<c:forEach items="${lista}" var="x">
+	   	 <p> <h3><font color=blue> <a href=city?codice=${x.codice}&continente=${continente}> ${x.nome} </a> </font></h3> </p>
 		</c:forEach>
     </div>
  

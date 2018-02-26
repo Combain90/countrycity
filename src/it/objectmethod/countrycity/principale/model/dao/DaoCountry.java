@@ -1,8 +1,8 @@
-package it.objectmethod.countrycity.principale.dao;
+package it.objectmethod.countrycity.principale.model.dao;
 
 import java.util.List;
 
-import it.objectmethod.countrycity.principale.pojo.CountryBean;
+import it.objectmethod.countrycity.principale.model.pojo.CountryBean;
 
 public interface DaoCountry {
 	public List<String> getContinents();

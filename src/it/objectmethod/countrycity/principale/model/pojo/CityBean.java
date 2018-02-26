@@ -1,4 +1,4 @@
-package it.objectmethod.countrycity.principale.pojo;
+package it.objectmethod.countrycity.principale.model.pojo;
 
 public class CityBean {
 	

@@ -19,11 +19,11 @@ body {
  
     <div align="center" style="margin-top: 50px;">
     	
-    	<h4><a href=/CountryCity/ServletIniziale> HOME</a><br></h4>
+    	<h4><a href=home> HOME</a><br></h4>
     	
     	
     	
-    	<FORM ACTION="/CountryCity/ServletAddAlterCity">
+    	<FORM ACTION="addUpdate">
     		<input type="hidden" name="id" value=${id}>
     		INSERISCI NOME: <input type="text" name="nome" value=${nome}> <br>
     		INSERISCI LO STATO: 

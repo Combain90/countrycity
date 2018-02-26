@@ -18,10 +18,10 @@ body {
 <body>
  
     <div align="center" style="margin-top: 50px;">
-    	<h6><a href=/CountryCity/ServletContinenti?continente=${continente}> INDIETRO</a><br></h6>
+    	<h6><a href=country?continente=${continente}> INDIETRO</a><br></h6>
     	<h2><font color=green> CITTA' DELLO STATO CON CODICE ${codiceStato} </font> </h2>
     	
-    	<FORM ACTION="/CountryCity/ServletTransfer">
+    	<FORM ACTION="form">
     		<input type="hidden" name="id" value="-1">
 	   	 	<input type="submit" value="AGGIUNGI CITTA'" style="width:320px;">
 	   	</FORM>
@@ -32,11 +32,11 @@ body {
 	   	 	
 	   	 		<h3>
 	   	 			<font color=blue> ${x.nome } - POP. : ${x.popolazione} - ID: ${x.id} </font>
-	   	 			<FORM ACTION="/CountryCity/ServletDelCity">
+	   	 			<FORM ACTION="delete">
 	   	 				<input type="hidden" name="id" value=${x.id}>
 	   	 				<input type="submit" value="CANCELLA">
 	   	 			</FORM>
-	   	 			<FORM ACTION="/CountryCity/ServletTransfer">
+	   	 			<FORM ACTION="form">
 	   	 				<input type="hidden" name="id" value=${x.id}>
 	   	 				<input type="submit" value="MODIFICA">
 	   	 			</FORM>

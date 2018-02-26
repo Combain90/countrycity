@@ -20,7 +20,7 @@ body {
     <div align="center" style="margin-top: 50px;">
     	
     	<h1><font color=green> ${risultato} </font> </h1>
-    	<h4><a href=/CountryCity/ServletIniziale> HOME</a><br></h4>
+    	<h4><a href=home> HOME</a><br></h4>
  
     </div>
  

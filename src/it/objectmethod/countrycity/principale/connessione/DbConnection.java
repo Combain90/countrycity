@@ -19,13 +19,12 @@ public class DbConnection {
 		 
 		 try {
 			 in=DbConnection.class.getClassLoader().getResourceAsStream("database.properties"); // carico driver e dati di login da file
-			 System.out.println("ARRIVO QUI");
 			 props.load(in);
 			 in.close();
 			 
 		 }catch(IOException e) {
 			 e.printStackTrace();
-			 System.out.println("file DB non trovato o errore durante la chiusura del file");
+			 //System.out.println("file DB non trovato o errore durante la chiusura del file");
 		 }
 		
 		 String drivers = props.getProperty("jdbc.drivers");
@@ -35,7 +34,7 @@ public class DbConnection {
 		     
 		 
 		 Connection conn=null;
-		 try {
+		 try{
 			Class.forName(drivers);
 			conn= DriverManager.getConnection(url, username, password);
 		 } catch (Exception e) {

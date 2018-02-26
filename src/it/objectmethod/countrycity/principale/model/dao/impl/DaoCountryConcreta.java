@@ -1,4 +1,4 @@
-package it.objectmethod.countrycity.principale.dao.impl;
+package it.objectmethod.countrycity.principale.model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.objectmethod.countrycity.principale.connessione.DbConnection;
-import it.objectmethod.countrycity.principale.dao.DaoCountry;
-import it.objectmethod.countrycity.principale.pojo.CountryBean;
+import it.objectmethod.countrycity.principale.model.dao.DaoCountry;
+import it.objectmethod.countrycity.principale.model.pojo.CountryBean;
 
 public class DaoCountryConcreta implements DaoCountry {
 	
