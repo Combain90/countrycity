@@ -41,8 +41,5 @@ public class CountryBean {
 
 	public void setContinente(String continente) {
 		this.continente = continente;
-	}
-
-	
-	
+	}	
 }

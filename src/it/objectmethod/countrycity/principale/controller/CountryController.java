@@ -5,10 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import it.objectmethod.countrycity.principale.model.dao.DaoCountry;
 import it.objectmethod.countrycity.principale.model.dao.impl.DaoCountryConcreta;
@@ -18,7 +16,7 @@ import it.objectmethod.countrycity.principale.model.pojo.CountryBean;
 public class CountryController{
 	
 	@RequestMapping("/home")
-	private String continents(HttpServletRequest request) {
+	public String continents(HttpServletRequest request) {
 		
 		DaoCountry dc=new DaoCountryConcreta();
 		List<String> lista=dc.getContinents();
