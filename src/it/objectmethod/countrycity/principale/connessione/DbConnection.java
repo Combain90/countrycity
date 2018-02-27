@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.util.Properties;
 
 public class DbConnection {
+	 
 	
 	 private DbConnection() { // EVITO CHE QUALCUNO ISTANZI UNA CLASSE DI UTILITA'. HO SOLO METODI STATICI
 	 }
