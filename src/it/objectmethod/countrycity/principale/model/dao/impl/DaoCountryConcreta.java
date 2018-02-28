@@ -41,19 +41,28 @@ public class DaoCountryConcreta extends NamedParameterJdbcDaoSupport implements 
 		});
 	}
 	
+//	@Override
+//	public List<CountryBean> getCountriesByContinent(String continent) {
+//		
+//		String query="SELECT * FROM country WHERE country.Continent= ?";
+//		return getJdbcTemplate().execute(query, new PreparedStatementCallback<List<CountryBean>>() {
+//			
+//				@Override
+//		    	public List<CountryBean> doInPreparedStatement(java.sql.PreparedStatement ps) throws SQLException, DataAccessException {
+//				   ps.setString(1,continent);          
+//			       ResultSet rs=ps.executeQuery();
+//			       return riempiLista(rs);
+//		    	}  
+//	    });  
+//	}
+	
 	@Override
 	public List<CountryBean> getCountriesByContinent(String continent) {
-		
-		String query="SELECT * FROM country WHERE country.Continent= ?";
-		return getJdbcTemplate().execute(query,new PreparedStatementCallback<List<CountryBean>>() {
-			
-				@Override
-		    	public List<CountryBean> doInPreparedStatement(java.sql.PreparedStatement ps) throws SQLException, DataAccessException {
-				   ps.setString(1,continent);          
-			       ResultSet rs=ps.executeQuery();
-			       return riempiLista(rs);
-		    	}  
-	    });  
+		List<CountryBean> ret = null;
+		String query="SELECT country.Code AS codice , country.Name AS nome , country.Region AS regione , country.Population AS popolazione , country.Continent AS continente FROM country WHERE country.Continent= ?";
+		BeanPropertyRowMapper<CountryBean> rm = new BeanPropertyRowMapper<CountryBean>(CountryBean.class);
+		ret = getJdbcTemplate().query(query, new Object[]{continent}, rm);
+		return ret;
 	}
 
 	@Override
@@ -63,17 +72,17 @@ public class DaoCountryConcreta extends NamedParameterJdbcDaoSupport implements 
 	}
 	
 	
-	private List<CountryBean> riempiLista(ResultSet rs) throws SQLException{
-		List<CountryBean> lista=new ArrayList<CountryBean>();
-		while(rs.next()) {
-			CountryBean cb=new CountryBean();
-			cb.setNome(rs.getString("Name"));
-			cb.setCodice(rs.getString("Code"));
-			cb.setContinente(rs.getString("Continent"));
-			cb.setPopolazione(rs.getString("Population"));
-			cb.setRegione(rs.getString("Region"));
-			lista.add(cb);
-		}
-		return lista;
-	}
+//	private List<CountryBean> riempiLista(ResultSet rs) throws SQLException{
+//		List<CountryBean> lista=new ArrayList<CountryBean>();
+//		while(rs.next()) {
+//			CountryBean cb=new CountryBean();
+//			cb.setNome(rs.getString("Name"));
+//			cb.setCodice(rs.getString("Code"));
+//			cb.setContinente(rs.getString("Continent"));
+//			cb.setPopolazione(rs.getString("Population"));
+//			cb.setRegione(rs.getString("Region"));
+//			lista.add(cb);
+//		}
+//		return lista;
+//	}
 }
