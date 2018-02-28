@@ -1,220 +1,112 @@
 package it.objectmethod.countrycity.principale.model.dao.impl;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
+import org.springframework.stereotype.Component;
 import it.objectmethod.countrycity.principale.model.dao.DaoCity;
 import it.objectmethod.countrycity.principale.model.pojo.CityBean;
 
-public class DaoCityConcreta implements DaoCity {
-
-	private Connection conn = null;
-
+@Component
+public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements DaoCity {
+	
+	
+	
+	@Autowired
+	public void setDs(DataSource ds) {
+		setDataSource(ds);
+	}
+	
 	@Override
 	public List<CityBean> getCitiesByCode(String code) {
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		List<CityBean> list = null;
-		String query = "SELECT * " + " FROM city " + " WHERE city.CountryCode = ?";
+		
+		String query = "SELECT * " + " FROM city " + " WHERE city.CountryCode = :code";
+		
+		Map<String,String> map=new HashMap<String,String>(); 
+		map.put("code", code);
+		
+		return getNamedParameterJdbcTemplate().execute(query,map, new PreparedStatementCallback<List<CityBean>>(){
 
-		try {
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, code);
-			rs = pstm.executeQuery();
-			list = riempiLista(rs);
-
-			// CHIUDO LE RISORSE E LA CONNESSIONE AL DB
-
-			pstm.close();
-			conn.close();
-			rs.close();
-
-		} catch (SQLException e) {
-			System.out.println("ERRORE NELLA QUERY DI DAO CITY");
-			e.printStackTrace();
-		} finally {
-			// FORZO LA CHISURA DEL DB E DELLE RISORSE
-			try {
-				if (pstm != null)
-					pstm.close();
-			} catch (SQLException se2) {
-			} // nothing we can do
-
-			try {
-				if (conn != null)
-					conn.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
+			@Override
+			public List<CityBean> doInPreparedStatement(PreparedStatement ps)
+					throws SQLException, DataAccessException {
+				ResultSet rs=ps.executeQuery();
+				return riempiLista(rs);
 			}
-		} // END FINALLY
-		return list;
+			
+		});
 	}
 
 	@Override
 	public int deleteCityById(String id) {
-		PreparedStatement pstm = null;
 
-		String query = "DELETE FROM city WHERE city.ID=?";
-		int successo = 0;
-		try {
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, id);
-			successo = pstm.executeUpdate();
-
-			// CHIUDO LE RISORSE E LA CONNESSIONE AL DB
-			pstm.close();
-			conn.close();
-
-		} catch (SQLException e) {
-			System.out.println("ERRORE NELLA QUERY DI DAO CITY");
-			e.printStackTrace();
-		} finally {
-			// FORZO LA CHISURA DEL DB E DELLE RISORSE
-			try {
-				if (pstm != null)
-					pstm.close();
-			} catch (SQLException se2) {
-			} // nothing we can do
-
-			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
-		} // END FINALLY
-		return successo;
+		String query = "DELETE FROM city WHERE city.ID=:id";
+		Map<String,String> map=new HashMap<String,String>(); 
+		map.put("id", id);
+		return getNamedParameterJdbcTemplate().update(query, map);
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
 
 	@Override
 	public CityBean getCity(String id) {
-		PreparedStatement pstm = null;
-		ResultSet rs = null;
-		CityBean cb = new CityBean();
-		String query = "SELECT * FROM city WHERE city.ID=?";
+		
+		String query = "SELECT * FROM city WHERE city.ID=:id";
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("id",id);
+		return getNamedParameterJdbcTemplate().execute(query, map, new PreparedStatementCallback<CityBean>(){
 
-		try {
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, id);
-			rs = pstm.executeQuery(); // ci sta un solo risultato. L'ID E' UNIVOCO
-
-			while (rs.next()) {
+			@Override
+			public CityBean doInPreparedStatement(PreparedStatement ps)
+					throws SQLException, DataAccessException {
+				ResultSet rs=ps.executeQuery();
+				CityBean cb=new CityBean();
+				
+				while(rs.next()) {
 				cb.setCountryCode(rs.getString("CountryCode"));
 				cb.setDistretto(rs.getString("District"));
 				cb.setId(rs.getString("ID"));
 				cb.setNome(rs.getString("Name"));
 				cb.setPopolazione(rs.getString("Population"));
+				} //CICLA UNA SOLA VOLTA
+				
+				return cb;
 			}
-			// CHIUDO LE RISORSE E LA CONNESSIONE AL DB
-
-			pstm.close();
-			conn.close();
-			rs.close();
-
-		} catch (SQLException e) {
-			System.out.println("ERRORE NELLA QUERY DI DAO CITY");
-			e.printStackTrace();
-		} finally {
-			// FORZO LA CHISURA DEL DB E DELLE RISORSE
-			try {
-				if (pstm != null)
-					pstm.close();
-			} catch (SQLException se2) {
-			} // nothing we can do
-
-			try {
-				if (conn != null)
-					conn.close();
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
-		} // END FINALLY
-		return cb;
+			
+		});
 	}
 
 	@Override
 	public int addCity(String nome, String codiceStato, String popolazione, String distretto) {
-		PreparedStatement pstm = null;
-
-		String query = "INSERT INTO city (Name,CountryCode,District,Population) VALUES (?,?,?,?)";
-		int successo = 0;
-		try {
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, nome);
-			pstm.setString(2, codiceStato);
-			pstm.setString(3, distretto);
-			pstm.setString(4, popolazione);
-			successo = pstm.executeUpdate();
-			// CHIUDO LE RISORSE E LA CONNESSIONE AL DB
-			pstm.close();
-			conn.close();
-
-		} catch (SQLException e) {
-			System.out.println("ERRORE NELLA QUERY DI DAO CITY");
-			e.printStackTrace();
-		} finally {
-			// FORZO LA CHISURA DEL DB E DELLE RISORSE
-			try {
-				if (pstm != null)
-					pstm.close();
-			} catch (SQLException se2) {
-			} // nothing we can do
-
-			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
-		} // END FINALLY
-		return successo;
+		String query = "INSERT INTO city (Name,CountryCode,District,Population) VALUES (:nome,:codiceStato,:distretto,:popolazione)";
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("nome",nome);
+		map.put("codiceStato",codiceStato);
+		map.put("popolazione",popolazione);
+		map.put("distretto",distretto);
+		return getNamedParameterJdbcTemplate().update(query, map);
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
 
 	@Override
 	public int updateCity(String id, String nome, String codiceStato, String popolazione, String distretto) {
-		PreparedStatement pstm = null;
 
-		String query = "UPDATE city SET Name=?,CountryCode=?,District=?,Population=? WHERE city.ID=?";
-		int successo = 0;
-		try {
-			pstm = conn.prepareStatement(query);
-			pstm.setString(1, nome);
-			pstm.setString(2, codiceStato);
-			pstm.setString(3, distretto);
-			pstm.setString(4, popolazione);
-			pstm.setString(5, id);
-			successo = pstm.executeUpdate();
-			// CHIUDO LE RISORSE E LA CONNESSIONE AL DB
-			pstm.close();
-			conn.close();
-
-		} catch (SQLException e) {
-			System.out.println("ERRORE NELLA QUERY DI DAO CITY");
-			e.printStackTrace();
-		} finally {
-			// FORZO LA CHISURA DEL DB E DELLE RISORSE
-			try {
-				if (pstm != null)
-					pstm.close();
-			} catch (SQLException se2) {
-			} // nothing we can do
-
-			try {
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException se) {
-				se.printStackTrace();
-			}
-		} // END FINALLY
-		return successo;
+		String query = "UPDATE city SET Name=:nome,CountryCode=:codiceStato,District=:distretto,Population=:popolazione WHERE city.ID=:id";
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("nome",nome);
+		map.put("codiceStato",codiceStato);
+		map.put("popolazione",popolazione);
+		map.put("distretto",distretto);
+		map.put("id", id);
+		return getNamedParameterJdbcTemplate().update(query, map);
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
 
