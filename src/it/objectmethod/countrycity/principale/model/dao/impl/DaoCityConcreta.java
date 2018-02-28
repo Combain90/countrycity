@@ -1,16 +1,11 @@
 package it.objectmethod.countrycity.principale.model.dao.impl;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.stereotype.Component;
 import it.objectmethod.countrycity.principale.model.dao.DaoCity;
@@ -19,33 +14,33 @@ import it.objectmethod.countrycity.principale.model.pojo.CityBean;
 @Component
 public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements DaoCity {
 	
-	
-	
 	@Autowired
 	public void setDs(DataSource ds) {
 		setDataSource(ds);
 	}
 	
+	
 	@Override
 	public List<CityBean> getCitiesByCode(String code) {
 		
-		String query = "SELECT * " + " FROM city " + " WHERE city.CountryCode = :code";
+		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city  WHERE city.CountryCode = :code";
 		
 		Map<String,String> map=new HashMap<String,String>(); 
 		map.put("code", code);
-		
-		return getNamedParameterJdbcTemplate().execute(query,map, new PreparedStatementCallback<List<CityBean>>(){
-
-			@Override
-			public List<CityBean> doInPreparedStatement(PreparedStatement ps)
-					throws SQLException, DataAccessException {
-				ResultSet rs=ps.executeQuery();
-				return riempiLista(rs);
-			}
-			
-		});
+		return getNamedParameterJdbcTemplate().query(query, map, new BeanPropertyRowMapper<CityBean>(CityBean.class));
 	}
 
+	@Override
+	public CityBean getCity(String id) {
+		
+		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city WHERE city.ID=:id";
+		Map<String,String> map=new HashMap<String,String>();
+		map.put("id",id);
+		List<CityBean> list= getNamedParameterJdbcTemplate().query(query, map, new BeanPropertyRowMapper<CityBean>(CityBean.class));
+		return list.get(0); // sono sicuro la lista abbia solo un elemento
+	}
+	
+	
 	@Override
 	public int deleteCityById(String id) {
 
@@ -55,34 +50,6 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 		return getNamedParameterJdbcTemplate().update(query, map);
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
-
-	@Override
-	public CityBean getCity(String id) {
-		
-		String query = "SELECT * FROM city WHERE city.ID=:id";
-		Map<String,String> map=new HashMap<String,String>();
-		map.put("id",id);
-		return getNamedParameterJdbcTemplate().execute(query, map, new PreparedStatementCallback<CityBean>(){
-
-			@Override
-			public CityBean doInPreparedStatement(PreparedStatement ps)
-					throws SQLException, DataAccessException {
-				ResultSet rs=ps.executeQuery();
-				CityBean cb=new CityBean();
-				
-				while(rs.next()) {
-				cb.setCountryCode(rs.getString("CountryCode"));
-				cb.setDistretto(rs.getString("District"));
-				cb.setId(rs.getString("ID"));
-				cb.setNome(rs.getString("Name"));
-				cb.setPopolazione(rs.getString("Population"));
-				} //CICLA UNA SOLA VOLTA
-				
-				return cb;
-			}
-			
-		});
-	}
 
 	@Override
 	public int addCity(String nome, String codiceStato, String popolazione, String distretto) {
@@ -109,7 +76,8 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 		return getNamedParameterJdbcTemplate().update(query, map);
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
-
+	
+	/*
 	private List<CityBean> riempiLista(ResultSet rs) throws SQLException {
 		List<CityBean> lista = new ArrayList<CityBean>();
 		while (rs.next()) {
@@ -124,5 +92,5 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 		}
 		return lista;
 	}
-
+	*/
 }

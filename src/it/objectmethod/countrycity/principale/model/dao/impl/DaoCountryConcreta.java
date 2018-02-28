@@ -3,18 +3,13 @@ package it.objectmethod.countrycity.principale.model.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.stereotype.Component;
-
 import it.objectmethod.countrycity.principale.model.dao.DaoCountry;
 import it.objectmethod.countrycity.principale.model.pojo.CountryBean;
 
@@ -41,6 +36,21 @@ public class DaoCountryConcreta extends NamedParameterJdbcDaoSupport implements 
 		});
 	}
 	
+	@Override
+	public List<CountryBean> getAllCountries() {
+		String query="SELECT country.Code AS codice , country.Name AS nome , country.Region AS regione , country.Population AS popolazione , country.Continent AS continente FROM country";
+		return getJdbcTemplate().query(query, new BeanPropertyRowMapper<CountryBean>(CountryBean.class));
+	}
+	
+	@Override
+	public List<CountryBean> getCountriesByContinent(String continent) {
+		
+		String query="SELECT country.Code AS codice , country.Name AS nome , country.Region AS regione , country.Population AS popolazione , country.Continent AS continente FROM country WHERE country.Continent= ?";
+		BeanPropertyRowMapper<CountryBean> rm = new BeanPropertyRowMapper<CountryBean>(CountryBean.class);
+		List<CountryBean> list = getJdbcTemplate().query(query, new Object[]{continent}, rm);
+		return list;
+	}
+	
 //	@Override
 //	public List<CountryBean> getCountriesByContinent(String continent) {
 //		
@@ -55,21 +65,6 @@ public class DaoCountryConcreta extends NamedParameterJdbcDaoSupport implements 
 //		    	}  
 //	    });  
 //	}
-	
-	@Override
-	public List<CountryBean> getCountriesByContinent(String continent) {
-		List<CountryBean> ret = null;
-		String query="SELECT country.Code AS codice , country.Name AS nome , country.Region AS regione , country.Population AS popolazione , country.Continent AS continente FROM country WHERE country.Continent= ?";
-		BeanPropertyRowMapper<CountryBean> rm = new BeanPropertyRowMapper<CountryBean>(CountryBean.class);
-		ret = getJdbcTemplate().query(query, new Object[]{continent}, rm);
-		return ret;
-	}
-
-	@Override
-	public List<CountryBean> getAllCountries() {
-		String query="SELECT country.Code AS codice , country.Name AS nome , country.Region AS regione , country.Population AS popolazione , country.Continent AS continente FROM country";
-		return getJdbcTemplate().query(query, new BeanPropertyRowMapper<CountryBean>(CountryBean.class));
-	}
 	
 	
 //	private List<CountryBean> riempiLista(ResultSet rs) throws SQLException{
