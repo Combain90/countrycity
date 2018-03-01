@@ -23,13 +23,13 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 	@Override
 	public List<CityBean> getCitiesByCode(String code) {
 		
-		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city  WHERE city.CountryCode = :code";
-		
+		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city  WHERE city.CountryCode = :code";		
 		Map<String,String> map=new HashMap<String,String>(); 
 		map.put("code", code);
 		return getNamedParameterJdbcTemplate().query(query, map, new BeanPropertyRowMapper<CityBean>(CityBean.class));
 	}
-
+	
+	
 	@Override
 	public CityBean getCity(String id) {
 		
