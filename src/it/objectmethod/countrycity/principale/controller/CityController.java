@@ -5,8 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import it.objectmethod.countrycity.principale.model.dao.DaoCity;
 import it.objectmethod.countrycity.principale.model.dao.DaoCountry;
@@ -14,6 +16,7 @@ import it.objectmethod.countrycity.principale.model.pojo.CityBean;
 import it.objectmethod.countrycity.principale.model.pojo.CountryBean;
 
 @Controller
+@RequestMapping(value="/api/cities")
 public class CityController {
 	
 	@Autowired
@@ -21,34 +24,16 @@ public class CityController {
 	@Autowired
 	private DaoCountry daoCountry;
 	
-	/*
-	public void setDaoCountry(DaoCountry daoCountry) {
-		this.daoCountry = daoCountry;
-	}	
-	public void setDaoCity(DaoCity daoCity) {
-		this.daoCity = daoCity;
-	} */
-	//MI SERVONO I SET DELLE DAO PERCHE @Autowired SI POGGIA SUI SET PER INIETTARE LE DIPENDENZE. però funziona anche senza set !!! bhoo
-	
-	@RequestMapping("/city")
-	public String citiesByCountry (@RequestParam("codice") String codiceStato, @RequestParam("continente") String continente, ModelMap map) {
-		
-		//ApplicationContext ctx = getIoC();
-		// DaoCity dc=(DaoCityConcreta)ctx.getBean("daoCity");
-		
-		List<CityBean> lista=daoCity.getCitiesByCode(codiceStato);
-		
-		map.addAttribute("lista", lista); // passo la lista
-		map.addAttribute("codiceStato", codiceStato);
-		map.addAttribute("continente", continente);
-		return "City";
+	@RequestMapping("/{codiceStato}")
+	@ResponseBody
+	public List<CityBean> citiesByCountry (@PathVariable("codiceStato") String codice) {
+		List<CityBean> lista=null;
+		lista=daoCity.getCitiesByCode(codice);
+		return lista;
 	}
 	
 	@RequestMapping("/delete")
 	public ModelAndView deleteCity( @RequestParam("id") String id){
-		
-		//ApplicationContext ctx = getIoC();
-		//DaoCity dc=(DaoCityConcreta)ctx.getBean("daoCity");
 		
 		int ris=daoCity.deleteCityById(id);
 		
@@ -59,18 +44,14 @@ public class CityController {
 		return new ModelAndView("Risposta","risultato",risultato);
 	}
 	
-	@RequestMapping("form")
+	@RequestMapping("/form")
 	public String formCity(ModelMap map, @RequestParam("id")String id){
-		
-		//ApplicationContext ctx = getIoC();
-		//DaoCountry dcountry=(DaoCountryConcreta)ctx.getBean("daoCountry");
 		
 		List<CountryBean> allCountryCode=daoCountry.getAllCountries(); // devo passarla per settare il campo countryCode
 		map.addAttribute("allCountryCode", allCountryCode); // passo la lista alla form di add/Update delle city
 		
 		if(Integer.parseInt(id)>0) { // HO UNA CITTA' ESISTENTE
 			
-			//DaoCity dc=(DaoCityConcreta)ctx.getBean("daoCity");
 			
 			CityBean cb=daoCity.getCity(id);
 			map.addAttribute("nome", cb.getNome()); 
@@ -89,7 +70,7 @@ public class CityController {
 		return "Form";
 	}
 	
-	@RequestMapping("addUpdate")
+	@RequestMapping("/addUpdate")
 	public ModelAndView addUpdateCity(HttpServletRequest request){
 		
 		String id=request.getParameter("id");
@@ -97,9 +78,6 @@ public class CityController {
 		String codiceStato=request.getParameter("codiceStato");
 		String popolazione=request.getParameter("popolazione");
 		String distretto=request.getParameter("distretto");
-		
-		//ApplicationContext ctx = getIoC();
-		//DaoCity dc=(DaoCityConcreta)ctx.getBean("daoCity");
 		
 		int ris=0;
 		if(Integer.parseInt(id)>0) { // HO UNA CITTA' ESISTENTE
@@ -115,10 +93,4 @@ public class CityController {
 		
 		return new ModelAndView("Risposta","risultato",risultato);
 	}
-	
-	/* ---- NON SERVE PERCHE' USO LE ANNOTAZIONI
-	private ApplicationContext getIoC() {
-		return new ClassPathXmlApplicationContext("/applicationContext.xml");
-	}
-	*/
 }
