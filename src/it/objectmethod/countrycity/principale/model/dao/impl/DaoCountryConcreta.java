@@ -25,15 +25,31 @@ public class DaoCountryConcreta extends NamedParameterJdbcDaoSupport implements 
 	@Override
 	public List<String> getContinents() {
 		
-		String query="SELECT distinct Continent FROM country";
-		return getJdbcTemplate().query(query,new RowMapper<String>() {
-
-			@Override
-			public String mapRow(ResultSet rs, int colonna) throws SQLException {
-				return rs.getString("Continent");
-			}
-			
-		});
+		/*
+		 * Ti lascio il vecchio codice per confrontare gli errori commessi
+		 * 
+		 *  return getJdbcTemplate().query("SELECT DISTINCT Continent FROM country", new RowMapper<String>() {
+		 *  	@Override                                                                                     
+		 *  	public String mapRow (ResultSet rs, int rownumber) throws SQLException {				      
+		 *                                                                                                    
+		 *  		String continent = (rs.getString("Continent"));                                           
+		 *  		return continent;                                                                         
+		 *  	}			                                                                                  
+		 *  });                                                                                               
+		 * 
+		 * 
+		 */
+		
+		// 1 Non ritornare mai direttamente il risultato di un metodo invocato, ma salvarsi in una variabile tale risultato e ritornare essa.
+		// 2 Non accalcare troppo codice sulla stessa riga, in fase di debug diventa complesso ricostruire la causa dell'errore
+		// 3 Non creare "macchine di Goldberg", non scrivere codice estremamente complesso per eseguire compiti estremamente semplici 
+		
+		
+		//Codice complesso
+		String sql = "SELECT DISTINCT Continent FROM country";
+		List<String> ret = null;
+		ret = getJdbcTemplate().queryForList(sql, String.class);
+		return ret;
 	}
 	
 	@Override

@@ -22,22 +22,32 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 	
 	@Override
 	public List<CityBean> getCitiesByCode(String code) {
-		
+		List<CityBean> ret = null;
 		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city  WHERE city.CountryCode = :code";
 		
 		Map<String,String> map=new HashMap<String,String>(); 
 		map.put("code", code);
-		return getNamedParameterJdbcTemplate().query(query, map, new BeanPropertyRowMapper<CityBean>(CityBean.class));
+		BeanPropertyRowMapper<CityBean> rm = new BeanPropertyRowMapper<CityBean>(CityBean.class);
+		ret = getNamedParameterJdbcTemplate().query(query, map, rm);
+		return ret;
 	}
 
 	@Override
 	public CityBean getCity(String id) {
+		/*  String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city WHERE city.ID=:id";
+		 *  Map<String,String> map=new HashMap<String,String>();                                                                                                                               
+		 *  map.put("id",id);                                                                                                                                                                  
+		 *  List<CityBean> list= getNamedParameterJdbcTemplate().query(query, map, new BeanPropertyRowMapper<CityBean>(CityBean.class));                                                       
+		 *  return list.get(0); // sono sicuro la lista abbia solo un elemento                                                                                                                 
+		 * 
+		 */
 		
 		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city WHERE city.ID=:id";
-		Map<String,String> map=new HashMap<String,String>();
-		map.put("id",id);
-		List<CityBean> list= getNamedParameterJdbcTemplate().query(query, map, new BeanPropertyRowMapper<CityBean>(CityBean.class));
-		return list.get(0); // sono sicuro la lista abbia solo un elemento
+		Map<String,String> map=new HashMap<String,String>();                                                                                                                               
+		map.put("id",id);                           
+		BeanPropertyRowMapper<CityBean> rm = new BeanPropertyRowMapper<CityBean>(CityBean.class);
+		CityBean ret = getNamedParameterJdbcTemplate().queryForObject(query, map, rm);
+		return ret;
 	}
 	
 	

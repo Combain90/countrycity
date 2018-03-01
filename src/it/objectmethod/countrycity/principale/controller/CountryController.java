@@ -31,7 +31,7 @@ public class CountryController{
 		//DaoCountry dc=(DaoCountryConcreta)ctx.getBean("daoCountry");
 		
 		List<String> lista=daoCountry.getContinents();
-		request.setAttribute("lista", lista); // passo la lista tramite http.
+		request.setAttribute("lista", lista); // passo la lista tramite http. //non fare così con spring by Ivan M.
 		return "Index"; // vado alla vista desiderata
 	}
 	
