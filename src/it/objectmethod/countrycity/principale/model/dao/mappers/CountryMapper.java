@@ -19,17 +19,21 @@ public class CountryMapper implements RowMapper<CountryBean>{
 	@Override
 	public CountryBean mapRow(ResultSet rs, int index) throws SQLException {
 		CountryBean tmp = new CountryBean();
+		
 		tmp.setCodice(rs.getString("Code"));
 		tmp.setNome(rs.getString("Name"));
 		tmp.setContinente(rs.getString("Continent"));
-//		if(tmp.getPopolazione() > 1000) { //Customizzazione dell'estrazione dei dati
-//			tmp.setGovForm("DICTATORSHIP"); 
-//		} else {
-//			tmp.setGovForm("CAPOCLASSE"); 
-//		}
+		tmp.setRegione(rs.getString("Region"));
+		tmp.setPopolazione(rs.getString("Population"));
 		
-		//Un RowMapper custom lo si utilizza solo e soltanto nel rarissimo caso in cui sia necessario elaborare l'estrazione dei dati
+		if(Integer.parseInt(tmp.getPopolazione()) > 1000) { //Customizzazione dell'estrazione dei dati
+			tmp.setContinente("Europe"); 
+		} else {
+			tmp.setContinente("Asia"); 
+		}
+		
 		return tmp;
+		//Un RowMapper custom lo si utilizza solo e soltanto nel rarissimo caso in cui sia necessario elaborare l'estrazione dei dati		
 	}
 
 	

@@ -59,7 +59,7 @@ public class CityController {
 		return new ModelAndView("Risposta","risultato",risultato);
 	}
 	
-	@RequestMapping("form")
+	@RequestMapping("/form")
 	public String formCity(ModelMap map, @RequestParam("id")String id){
 		
 		//ApplicationContext ctx = getIoC();
@@ -89,7 +89,7 @@ public class CityController {
 		return "Form";
 	}
 	
-	@RequestMapping("addUpdate")
+	@RequestMapping("/addUpdate")
 	public ModelAndView addUpdateCity(HttpServletRequest request){
 		
 		String id=request.getParameter("id");

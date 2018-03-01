@@ -21,43 +21,13 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 	
 	
 	@Override
-	public List<CityBean> getCitiesByCode(String code) {
-		List<CityBean> ret = null;
-		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city  WHERE city.CountryCode = :code";
-		
-		Map<String,String> map=new HashMap<String,String>(); 
-		map.put("code", code);
-		BeanPropertyRowMapper<CityBean> rm = new BeanPropertyRowMapper<CityBean>(CityBean.class);
-		ret = getNamedParameterJdbcTemplate().query(query, map, rm);
-		return ret;
-	}
-
-	@Override
-	public CityBean getCity(String id) {
-		/*  String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city WHERE city.ID=:id";
-		 *  Map<String,String> map=new HashMap<String,String>();                                                                                                                               
-		 *  map.put("id",id);                                                                                                                                                                  
-		 *  List<CityBean> list= getNamedParameterJdbcTemplate().query(query, map, new BeanPropertyRowMapper<CityBean>(CityBean.class));                                                       
-		 *  return list.get(0); // sono sicuro la lista abbia solo un elemento                                                                                                                 
-		 * 
-		 */
-		
-		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city WHERE city.ID=:id";
-		Map<String,String> map=new HashMap<String,String>();                                                                                                                               
-		map.put("id",id);                           
-		BeanPropertyRowMapper<CityBean> rm = new BeanPropertyRowMapper<CityBean>(CityBean.class);
-		CityBean ret = getNamedParameterJdbcTemplate().queryForObject(query, map, rm);
-		return ret;
-	}
-	
-	
-	@Override
 	public int deleteCityById(String id) {
-
 		String query = "DELETE FROM city WHERE city.ID=:id";
 		Map<String,String> map=new HashMap<String,String>(); 
 		map.put("id", id);
-		return getNamedParameterJdbcTemplate().update(query, map);
+		int ret=0;
+		ret= getNamedParameterJdbcTemplate().update(query, map);
+		return ret;
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
 
@@ -69,7 +39,9 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 		map.put("codiceStato",codiceStato);
 		map.put("popolazione",popolazione);
 		map.put("distretto",distretto);
-		return getNamedParameterJdbcTemplate().update(query, map);
+		int ret=0;
+		ret=getNamedParameterJdbcTemplate().update(query, map);
+		return ret;
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
 
@@ -83,9 +55,43 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 		map.put("popolazione",popolazione);
 		map.put("distretto",distretto);
 		map.put("id", id);
-		return getNamedParameterJdbcTemplate().update(query, map);
+		int ret=0;
+		ret=getNamedParameterJdbcTemplate().update(query, map);
+		return ret;
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
+	
+	@Override
+	public List<CityBean> getCitiesByCode(String code) {
+		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city  WHERE city.CountryCode = :code";
+		Map<String,String> map=new HashMap<String,String>(); 
+		map.put("code", code);
+		List<CityBean> ret = null;
+		BeanPropertyRowMapper<CityBean> rm = new BeanPropertyRowMapper<CityBean>(CityBean.class);
+		ret = getNamedParameterJdbcTemplate().query(query, map, rm);
+		return ret;
+	}
+
+	@Override
+	public CityBean getCity(String id) {
+		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city WHERE city.ID=:id";
+		Map<String,String> map=new HashMap<String,String>();                                                                                                                               
+		map.put("id",id);                           
+		BeanPropertyRowMapper<CityBean> rm = new BeanPropertyRowMapper<CityBean>(CityBean.class);
+		CityBean ret = getNamedParameterJdbcTemplate().queryForObject(query, map, rm);
+		return ret;
+	}
+	
+	/* SBAGLIATO. E' MOLTO PIU' CONSONO USARE IL METODO QUI SOOPRA
+	@Override
+	public CityBean getCity(String id) {
+		String query = "SELECT city.ID as id, city.Name as nome, city.CountryCode as countryCode, city.Population as popolazione , city.District as distretto FROM city WHERE city.ID=:id";
+		Map<String,String> map=new HashMap<String,String>();                                                                                                                               
+		map.put("id",id);                                                                                                                                                                  
+		List<CityBean> list= getNamedParameterJdbcTemplate().query(query, map, new BeanPropertyRowMapper<CityBean>(CityBean.class));                                                       
+		return list.get(0); // sono sicuro la lista abbia solo un elemento                                                                                                                 
+	}
+	*/
 	
 	/* UN VECCHIO PREPAREDSTATMENT CHE IVAN DICE MEGLIO NON USARE. USARLO SOLO IN CASI ESTREMI
 	public CityBean getCity(String id) {
