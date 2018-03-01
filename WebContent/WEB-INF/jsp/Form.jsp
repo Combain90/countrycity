@@ -39,7 +39,7 @@ body {
 		    	</c:forEach>
 		    </select>
     		<br>
-    		INSERISCI IL DISTRETTO: <input type="text" name="distretto" value=${distretto}> <br>
+    		INSERISCI IL DISTRETTO: <input type="text" name="distretto" value=${distretto} required> <br>
     		INSERISCI IL NUMERO DI POPOLANTI: <input type="number" name="popolazione" value=${popolazione}> <br>
 	   	 	<input type="submit" value="INSERISCI/MODIFICA LA CITTA'">
 	   	</FORM>
