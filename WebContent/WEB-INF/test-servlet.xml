@@ -20,8 +20,7 @@
 	</bean>
  
  	<!-- QUESTO BEAN NON LO COMMENTO PERCHE DELLE MIE CLASSI HANNO L'ANNOTAZIONE @Autowired SU UN OGGETTO DATASOURCE E DATO CHE NON HO MESSO @Component SU NESSUNO OGGETTO DI TIPO DATASOURCE( hehe, non posso modificare le classi di java. Non sono pazzo), SPRING GUARDA SE CI STA QUALCHE RIFERIMENTO DATASOURCE NEL SUO FILE DI CONFIGURAZIONE XML: OVVERO QUI DENTRO. IL RIFERIMENTO CHE GLI SERVE LO TROVA PROPRIO NEL BEAN RIFERITO QUI SOTTO -->
- 	<bean id="ds"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+ 	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost/world" />
 		<property name="username" value="root" />
@@ -40,13 +39,13 @@
 	</bean>  
 	-->
 	
-	<!--  COMMENTO PERCHE' STO USANDO L'INEZIONE TRAMITE ANNOTAZIONE
+	<!--  COMMENTO PERCHE' STO USANDO L'INEZIONE TRAMITE ANNOTAZIONE. HO LA PROPERTY DATASOURCE PERCHE STO ESTENDENDO NAMEDPARAMETERJDBCDAOSUPPORT
 	<bean id="daoCountry" class="it.objectmethod.countrycity.principale.model.dao.impl.DaoCountryConcreta">
 		<property name="dataSource" ref="ds"></property>
 	</bean>
 	-->
 	
-	<!-- COMMENTO PERCHE' STO USANDO L'INEZIONE TRAMITE ANNOTAZIONE
+	<!-- COMMENTO PERCHE' STO USANDO L'INEZIONE TRAMITE ANNOTAZIONE. HO LA PROPERTY DATASOURCE PERCHE STO ESTENDENDO NAMEDPARAMETERJDBCDAOSUPPORT
 	<bean id="daoCity" class="it.objectmethod.countrycity.principale.model.dao.impl.DaoCityConcreta">
 		<property name="dataSource" ref="ds"></property>
 	</bean> 

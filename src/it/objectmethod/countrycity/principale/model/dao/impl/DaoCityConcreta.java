@@ -77,6 +77,33 @@ public class DaoCityConcreta extends NamedParameterJdbcDaoSupport implements Dao
 	}
 	// 1 se l'eliminazione ha successo, 0 altrimenti
 	
+	/* UN VECCHIO PREPAREDSTATMENT CHE IVAN DICE MEGLIO NON USARE. USARLO SOLO IN CASI ESTREMI
+	public CityBean getCity(String id) {
+	    
+	    String query = "SELECT * FROM city WHERE city.ID=:id";
+	    Map<String,String> map=new HashMap<String,String>);
+	    map.put("id",id);
+	    return getNamedParameterJdbcTemplate().execute(query, map, new PreparedStatementCallback<CityBean>){
+
+	      @Override
+	      public CityBean doInPreparedStatement(PreparedStatement ps)
+	          throws SQLException, DataAccessException {
+	        ResultSet rs=ps.executeQuery();
+	        CityBean cb=new CityBean();
+	        while(rs.next()) {
+	        cb.setCountryCode(rs.getString("CountryCode"));
+	        cb.setDistretto(rs.getString("District"));
+	        cb.setId(rs.getString("ID"));
+	        cb.setNome(rs.getString("Name"));
+	        cb.setPopolazione(rs.getString("Population"));
+	        }
+	        return cb;
+	      }
+	      
+	    });
+	  }
+	*/
+	
 	/*
 	private List<CityBean> riempiLista(ResultSet rs) throws SQLException {
 		List<CityBean> lista = new ArrayList<CityBean>();
