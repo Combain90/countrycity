@@ -5,7 +5,7 @@ import java.util.List;
 import it.objectmethod.countrycity.principale.model.pojo.CityBean;
 
 
-public interface DaoCity {
+public interface IDaoCity {
 	public List<CityBean> getCitiesByCode(String code);
 	public int deleteCityById(String id);
 	public CityBean getCity(String id);
