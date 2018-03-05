@@ -18,7 +18,7 @@ public class CountryRestController{
 	@Autowired
 	private IDaoCountry daoCountry;
 	
-	@RequestMapping("/continents")
+	@RequestMapping(value="/continents")
 	public List<String> continents() {
 		List<String> lista=null;
 		lista=daoCountry.getContinents();
