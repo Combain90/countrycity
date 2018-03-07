@@ -17,6 +17,9 @@
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
      </mvc:message-converters>
     </mvc:annotation-driven>
+	<mvc:resources location="/assets/img/" mapping="/assets/img/**" />
+	<mvc:resources location="/assets/css/" mapping="/assets/css/**" />
+	<mvc:resources location="/js/" mapping="/js/**" />
  	
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -30,7 +33,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost/world" />
 		<property name="username" value="root" />
-		<property name="password" value="0000" />
+		<property name="password" value="root" />
 	</bean>
 	
 </beans>

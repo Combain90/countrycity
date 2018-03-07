@@ -1,0 +1,3 @@
+- gestione CrossOrigin
+- Modifica controllers per gestire Languages come entità a parte
+- inserimento cities (da vedere insieme)

@@ -3,6 +3,7 @@ package it.objectmethod.countrycity.principale.rest.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class CountryRestController{
 	private IDaoCountry daoCountry;
 	
 	@RequestMapping(value="/continents")
+	@CrossOrigin
 	public List<String> continents() {
 		List<String> lista=null;
 		lista=daoCountry.getContinents();
