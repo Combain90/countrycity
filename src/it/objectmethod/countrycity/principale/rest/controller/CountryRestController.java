@@ -25,6 +25,13 @@ public class CountryRestController{
 		return lista;
 	}
 	
+	@RequestMapping(value="/list")
+	public List<CountryBean> getAllCountries(){
+		List<CountryBean> list=null;
+		list=daoCountry.getAllCountries();
+		return list;
+	}
+	
 	@RequestMapping("/{continent}/list")
 	public List<CountryBean> countriesByContinent(@PathVariable("continent")String continente) {
 		List<CountryBean> lista=null;
@@ -39,7 +46,7 @@ public class CountryRestController{
 		return ret;
 	}
 	
-	@GetMapping(value="languages/{stato}/list")
+	@GetMapping(value="/languages/{stato}/list")
 	public List<String> languagesByCountry(@PathVariable("stato") String code){
 		List<String> ret=null;
 		ret=daoCountry.getLanguagesByCountryCode(code);
