@@ -1,3 +1,4 @@
+var assolutePath="http://localhost:8080/CountryCity/api";
 $(document).ready(function(){
         $("#indexh1").mouseover(function(){
             $(".butt").slideDown("slow");
@@ -7,7 +8,7 @@ $(document).ready(function(){
 
         $("#buttC").click(function(){
             var con=$("#continent");
-            $.getJSON("http://localhost:8080/CountryCity/api/countries/continents",function(result){
+            $.getJSON(assolutePath+"/countries/continents",function(result){
                 con.children().append("<tr><th align='center'><b> CONTINENTI </b></th></tr>");
                 $.each(result,function(i,field){
                     con.children().append("<tr><td align='center' id='rigaC"+i+"' onclick='rigaCFunction(this.id)'>"+ field +"</td></tr>"); 
@@ -18,7 +19,7 @@ $(document).ready(function(){
 
         $("#buttL").click(function(){
             var lang=$("#lang");
-            $.getJSON("http://localhost:8080/CountryCity/api/countries/list",function(result){
+            $.getJSON(assolutePath+"/countries/list",function(result){
     
                 lang.append("SCEGLI UNO STATO: <select id='mioSel'>");
                 $.each(result,function(i,field){
@@ -29,14 +30,74 @@ $(document).ready(function(){
             });
             $(".butt").slideUp("slow");
             eliminaDati();
-        });            
+        });
+        
+        $("#buttAdd").click(function(){ /*DEVO CREARE IL FORM PER INSERIRE LA CITY */
+            var add=$("#formAdd");
+            $.getJSON(assolutePath+"/countries/list",function(result){
+    
+                add.append("SCEGLI UNO STATO: <select id='mioSel'>");
+                $.each(result,function(i,field){
+                    add.children().append("<option value="+ field.codice +" >"+ field.nome +"</option>");
+                });
+                add.append("</select>");
+                add.append("<br> INSERISCI IL NOME: <input type='text' id='nomeStato' required>");
+                add.append("<br> INSERISCI IL DISTRETTO: <input type='text' id='distrettoStato' required>");
+                add.append("<br> INSERISCI N. ABITANTI:  <input type='number' id='popolazioneStato' min='0' required>");
+                add.append("<br><button type='button' onclick='addFunction()' >AGGIUNGI</button>");
+            });
+            $(".butt").slideUp("slow");
+            eliminaDati();
+        });
     });
+
+    function addFunction(){
+        var v1 =document.getElementById("nomeStato");
+        var v2 =document.getElementById("distrettoStato");
+        var v3 =document.getElementById("popolazioneStato");
+        var verifica=validateDate(v1) && validateDate(v2) && validateDate(v3) ;
+        if(verifica){
+            var obj={id:"-1",nome:v1.value , distretto:v2.value, popolazione:v3.value, countryCode: $("#mioSel").val()}; // CREO UN OGGETTO CHE PASSERO' COME JSON
+            /* CHIAMATA AJAX NUDA E CRUDA CON JQUERY */
+            $.ajax({
+                type: "POST",
+                url:assolutePath+"/cities/add",
+                data: JSON.stringify(obj),  /* se passo soltanto obj non funziona. Così funziona */
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json; charset=utf-8' 
+                },
+                dataType: "json",
+                success: function(result){
+                    eliminaDati();
+                    if(result.status==304){
+                        window.alert("STATUS "+ result.status + ": "+result.msg);
+                    }else{
+                        window.alert("STATUS "+result.status + ":"+ result.cb.nome + " inserita correttamente!");
+                        rigaSFunction(result.cb.countryCode);
+                    }
+                },
+                error: function(){window.alert("STATUS 404 : CHIAMATA FALLITA. SERVER NON RAGGIUNTO")}
+            });
+        }else{
+          window.alert("RIPROVA. INSERIRE CORRETTAMENTE I DATI");   
+        }
+    }
+    
+    function validateDate(x){
+        var verifica=true;
+        if (!x.checkValidity()){
+            verifica=false;
+        }
+        return verifica;
+    }
+
 
     function langFunction(){
         var lang=$("#langT");
         var y=$("#mioSel").val();
         lang.empty();
-        $.getJSON("http://localhost:8080/CountryCity/api/countries/languages/"+y+"/list",function(result){
+        $.getJSON(assolutePath+"/languages/"+y+"/list",function(result){
             lang.append("<table border='1px'><tr><th align='center'><b>LINGUE IN "+y+"</b></th></tr>"); 
             
             $.each(result,function(i,lingua){
@@ -50,7 +111,7 @@ $(document).ready(function(){
     function rigaCFunction(id){  /*--PASSO L'ID DI UNA RIGA DEI CONTINENTI. LO FACCIO APPOSTA PER IMPARARE JQUERY. POTEVO PASSARE IL NOME DEL CONTINENTE PER FACILITARMI LA VITA  */
         var coun=$("#country");
         eliminaDati()
-        $.getJSON("http://localhost:8080/CountryCity/api/countries/"+$("#"+id).text()+"/list",function(result){
+        $.getJSON(assolutePath+"/countries/"+$("#"+id).text()+"/list",function(result){
             coun.append("<table border='1px'><tr><th align='center' colspan='2'><b>"+$("#"+id).text()+"</b></th></tr>"); 
             coun.children().append("<tr><td align='center'><u>NOME</u></td><td align='center'><u>REGIONE</u></td></tr>");
             var msg='----ERRORE: Clicca sul nome!----';
@@ -64,7 +125,7 @@ $(document).ready(function(){
     function rigaSFunction(code){ /* NON PASSO L'ID DI UNA RIGA MA DIRETTAMENTE IL CODICE DELLO STATO: MI SERVE PER AVERE LA RISORSA DESIDERATA */
         var ci=$("#city");
         eliminaDati();
-        $.getJSON("http://localhost:8080/CountryCity/api/cities/"+code+"/list",function(result){
+        $.getJSON(assolutePath+"/cities/"+code+"/list",function(result){
             ci.append("<table border='1px'><tr><th align='center' colspan='3'><b>"+code+"</b></th></tr>"); 
             ci.children().append("<tr><td align='center'><u>NOME</u></td><td align='center'><u>DISTRETTO</u></td><td align='center'><u>POPOLAZIONE</u></td></tr>");
             $.each(result,function(i,citta){
@@ -84,4 +145,5 @@ $(document).ready(function(){
         $("#country").empty(); 
         $("#lang").empty();
         $("#langT").empty();
+        $("#formAdd").empty();
     }

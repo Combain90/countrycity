@@ -1,14 +1,14 @@
 package it.objectmethod.countrycity.principale.model.pojo;
 
 public class CountryLanguageBean {
-	private String nome,linguaggio;
+	private String country,linguaggio;
 
-	public String getNome() {
-		return nome;
+	public String getCountry() {
+		return country;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	public String getLinguaggio() {

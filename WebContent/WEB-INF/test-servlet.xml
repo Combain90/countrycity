@@ -12,11 +12,12 @@
 	<context:component-scan base-package="it.objectmethod.countrycity.principale" />
  	
 	<mvc:annotation-driven>
-     <mvc:message-converters>
+    	<mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
-     </mvc:message-converters>
+    	</mvc:message-converters>
     </mvc:annotation-driven>
+    
 	<mvc:resources location="/assets/img/" mapping="/assets/img/**" />
 	<mvc:resources location="/assets/css/" mapping="/assets/css/**" />
 	<mvc:resources location="/js/" mapping="/js/**" />
@@ -33,7 +34,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost/world" />
 		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="0000" />
 	</bean>
 	
 </beans>
