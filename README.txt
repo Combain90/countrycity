@@ -1,3 +1,2 @@
-- gestione CrossOrigin
-- Modifica controllers per gestire Languages come entità a parte
-- inserimento cities (da vedere insieme)
+- rimuovere ObjectMapper da insertCity
+- modificare attributi di tag html presenti nella pagina (non generare eccessivo codice HTML da jQuery)

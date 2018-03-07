@@ -32,7 +32,7 @@ public class CityRestController {
 	}
 	
 	@PostMapping(value="/add")
-	public String addCity(@RequestBody CityBean json) { // il Json arrivato è direttamente Convertito in Oggeto. Thanks @RequestBody
+	public StatusBeanCity addCity(@RequestBody CityBean json) { // il Json arrivato è direttamente Convertito in Oggeto. Thanks @RequestBody
 		
 		int succ=daoCity.addCity(json.getNome(), json.getCountryCode(), json.getPopolazione(), json.getDistretto());
 		String stringa=null;
@@ -60,6 +60,6 @@ public class CityRestController {
 			}
 		}
 		//fine conversione
-		return stringa;
+		return cb;
 	}
 }
