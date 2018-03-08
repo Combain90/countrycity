@@ -138,9 +138,9 @@ $(document).ready(function(){
 
     function formAddHide(){
         $("#formAdd").find("#mioSel2").empty();
-        $("#nomeStato").val("INSERISCI IL NOME");
-        $("#distrettoStato").val("INSERISCI IL DISTRETTO");
-        $("#popolazioneStato").val("0");
+        $("#nomeStato").val("");
+        $("#distrettoStato").val("");
+        $("#popolazioneStato").val("");
         $("#formAdd").hide();
     }
 

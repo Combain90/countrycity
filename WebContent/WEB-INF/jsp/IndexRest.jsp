@@ -1,7 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
-    "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -27,9 +24,9 @@
         <div id="langT"></div>
         <div id="formAdd" style="display:none">
              SCEGLI UNO STATO: <select id='mioSel2'></select>
-            <br> INSERISCI IL NOME: <input type='text' id='nomeStato' value="INSERISCI" required>
-            <br> INSERISCI IL DISTRETTO: <input type='text' id='distrettoStato' value="INSERISCI" required>
-            <br> INSERISCI N. ABITANTI:  <input type='number' id='popolazioneStato' min='0' value="0" required>
+            <br> INSERISCI IL NOME: <input type='text' id='nomeStato' placeholder="Inserisci il nome" required>
+            <br> INSERISCI IL DISTRETTO: <input type='text' id='distrettoStato' placeholder="Inserisci il distretto" required>
+            <br> INSERISCI N. ABITANTI:  <input type='number' id='popolazioneStato' min='0' placeholder="n. abitanti" required>
             <br><button type='button' onclick='addFunction()' >AGGIUNGI </button>
         </div>
     </div>
