@@ -25,7 +25,13 @@
         <div id="city" ></div>
         <div id="lang" ></div>
         <div id="langT"></div>
-        <div id="formAdd"></div>
+        <div id="formAdd" style="display:none">
+             SCEGLI UNO STATO: <select id='mioSel2'></select>
+            <br> INSERISCI IL NOME: <input type='text' id='nomeStato' value="INSERISCI" required>
+            <br> INSERISCI IL DISTRETTO: <input type='text' id='distrettoStato' value="INSERISCI" required>
+            <br> INSERISCI N. ABITANTI:  <input type='number' id='popolazioneStato' min='0' value="0" required>
+            <br><button type='button' onclick='addFunction()' >AGGIUNGI </button>
+        </div>
     </div>
 </body>
 </html>

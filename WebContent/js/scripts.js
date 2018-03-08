@@ -36,28 +36,24 @@ $(document).ready(function(){
             var add=$("#formAdd");
             $.getJSON(assolutePath+"/countries/list",function(result){
     
-                add.append("SCEGLI UNO STATO: <select id='mioSel'>");
                 $.each(result,function(i,field){
-                    add.children().append("<option value="+ field.codice +" >"+ field.nome +"</option>");
+                    add.find("#mioSel2").append("<option value="+ field.codice +" >"+ field.nome +"</option>");
                 });
-                add.append("</select>");
-                add.append("<br> INSERISCI IL NOME: <input type='text' id='nomeStato' required>");
-                add.append("<br> INSERISCI IL DISTRETTO: <input type='text' id='distrettoStato' required>");
-                add.append("<br> INSERISCI N. ABITANTI:  <input type='number' id='popolazioneStato' min='0' required>");
-                add.append("<br><button type='button' onclick='addFunction()' >AGGIUNGI</button>");
+                add.show();
             });
+           
             $(".butt").slideUp("slow");
             eliminaDati();
         });
     });
 
     function addFunction(){
-        var v1 =document.getElementById("nomeStato");
-        var v2 =document.getElementById("distrettoStato");
-        var v3 =document.getElementById("popolazioneStato");
-        var verifica=validateDate(v1) && validateDate(v2) && validateDate(v3) ;
+        var v1 =$("#nomeStato")[0]; 
+        var v2 =$("#distrettoStato")[0];
+        var v3 =$("#popolazioneStato")[0];
+        var verifica=validate(v1) && validate(v2) && validate(v3) ;
         if(verifica){
-            var obj={id:"-1",nome:v1.value , distretto:v2.value, popolazione:v3.value, countryCode: $("#mioSel").val()}; // CREO UN OGGETTO CHE PASSERO' COME JSON
+            var obj={id:"-1",nome:v1.value , distretto:v2.value, popolazione:v3.value, countryCode: $("#mioSel2").val()}; // CREO UN OGGETTO CHE PASSERO' COME JSON
             /* CHIAMATA AJAX NUDA E CRUDA CON JQUERY */
             $.ajax({
                 type: "POST",
@@ -84,7 +80,7 @@ $(document).ready(function(){
         }
     }
     
-    function validateDate(x){
+    function validate(x){
         var verifica=true;
         if (!x.checkValidity()){
             verifica=false;
@@ -140,10 +136,18 @@ $(document).ready(function(){
         window.alert(x);
     }
 
+    function formAddHide(){
+        $("#formAdd").find("#mioSel2").empty();
+        $("#nomeStato").val("INSERISCI IL NOME");
+        $("#distrettoStato").val("INSERISCI IL DISTRETTO");
+        $("#popolazioneStato").val("0");
+        $("#formAdd").hide();
+    }
+
     function eliminaDati(){
         $("#city").empty();
         $("#country").empty(); 
         $("#lang").empty();
         $("#langT").empty();
-        $("#formAdd").empty();
+        formAddHide();
     }

@@ -8,10 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import it.objectmethod.countrycity.principale.model.dao.IDaoCity;
 import it.objectmethod.countrycity.principale.model.pojo.CityBean;
 import it.objectmethod.countrycity.principale.model.pojo.StatusBeanCity;
@@ -33,33 +29,17 @@ public class CityRestController {
 	
 	@PostMapping(value="/add")
 	public StatusBeanCity addCity(@RequestBody CityBean json) { // il Json arrivato è direttamente Convertito in Oggeto. Thanks @RequestBody
-		
 		int succ=daoCity.addCity(json.getNome(), json.getCountryCode(), json.getPopolazione(), json.getDistretto());
-		String stringa=null;
-		ObjectMapper mapper=new ObjectMapper();
 		StatusBeanCity cb=new StatusBeanCity();
 		if(succ>0) { // aggiunta della nuova city con successo
-			
-			//Converto da oggetto in JSON. Jackson
-			try {
-			  cb.setCb(json);
-			  cb.setStatus("201");
-			  cb.setMsg("City "+json.getNome()+" creata correttamente");
-			  stringa= mapper.writeValueAsString(cb);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
-		}else { // ERRORE NELL'AGGIUNTA
+			cb.setCb(json);
+			cb.setStatus("201");
+			cb.setMsg("City "+json.getNome()+" creata correttamente");
+		}else {// ERRORE NELL'AGGIUNTA
 			cb.setCb(null);
 			cb.setStatus("304");
 			cb.setMsg("Relazione delle City non modificata");
-			try {
-				stringa=mapper.writeValueAsString(cb);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			}
 		}
-		//fine conversione
-		return cb;
+		return cb; 
 	}
 }
