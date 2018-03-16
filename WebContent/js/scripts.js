@@ -21,12 +21,11 @@ $(document).ready(function(){
             var lang=$("#lang");
             $.getJSON(assolutePath+"/countries/list",function(result){
     
-                lang.append("SCEGLI UNO STATO: <select id='mioSel'>");
+                lang.append("SCEGLI UNO STATO: <select id='mioSel' onchange='langFunction()'>");
                 $.each(result,function(i,field){
                     lang.children().append("<option value="+ field.codice +" >"+ field.nome +"</option>");
                 });
                 lang.append("</select>");
-                lang.append("<br><button type='button' onclick='langFunction()' >ANALIZZA</button>");
             });
             $(".butt").slideUp("slow");
             eliminaDati();
