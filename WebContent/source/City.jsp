@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
-    "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html >
 <html>
 <style type="text/css">
 body {
@@ -32,14 +31,14 @@ body {
 	   	 	
 	   	 		<h3>
 	   	 			<font color=blue> ${x.nome } - POP. : ${x.popolazione} - ID: ${x.id} </font>
-	   	 			<FORM ACTION="/CountryCity/ServletDelCity">
+	   	 			<form ACTION="/CountryCity/ServletDelCity">
 	   	 				<input type="hidden" name="id" value=${x.id}>
 	   	 				<input type="submit" value="CANCELLA">
-	   	 			</FORM>
-	   	 			<FORM ACTION="/CountryCity/ServletTransfer">
+	   	 			</form>
+	   	 			<form ACTION="/CountryCity/ServletTransfer">
 	   	 				<input type="hidden" name="id" value=${x.id}>
 	   	 				<input type="submit" value="MODIFICA">
-	   	 			</FORM>
+	   	 			</form>
 	   	 		</h3> 
 	   	   
 		</c:forEach>
