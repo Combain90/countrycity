@@ -10,4 +10,9 @@ public class GeneralController {
 	public String launchApplication() {
 		return "IndexRest";
 	}
+	
+	@GetMapping(value="*")
+	public String defaultindex() {
+		return "IndexRest";
+	}
 }
